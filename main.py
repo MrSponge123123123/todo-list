@@ -1,5 +1,5 @@
 import sys
-from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLineEdit, QLabel, QListWidget, QCheckBox, QGridLayout, QListWidgetItem
+from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QListWidget
 from item import Item
 
 def start():
