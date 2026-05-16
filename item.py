@@ -16,10 +16,8 @@ class Item(QWidget):
         self.button.clicked.connect(self.on_click)
 
         self.layout.addWidget(self.checkbox, 0, 0)
-        self.layout.addWidget(self.field, 0, 1, 1, 2)
-        self.layout.addWidget(self.button, 0, 3)
-
-        self.show()
+        self.layout.addWidget(self.field, 0, 1, 1, 8)
+        self.layout.addWidget(self.button, 0, 9)
 
         self.list_item.setSizeHint(self.sizeHint())
 
