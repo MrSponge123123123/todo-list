@@ -13,11 +13,16 @@ class Item(QWidget):
         self.layout = QGridLayout(self)
 
         self.checkbox = QCheckBox()
+        self.checkbox.toggled.connect(self.checkbox_on_toggle)
+
         self.field = QLineEdit()
+
         self.label = QLabel()
         self.label.hide()
+
         self.button_del = QPushButton("Del")
         self.button_del.clicked.connect(self.button_del_on_click)
+
         self.button_edit = QPushButton("Edit")
         self.button_edit.clicked.connect(self.button_edit_on_click)
 
@@ -31,6 +36,7 @@ class Item(QWidget):
 
         self.list_widget.addItem(self.list_item)
         self.list_widget.setItemWidget(self.list_item, self)
+
 
     def button_del_on_click(self):
         row = self.list_widget.row(self.list_item)
@@ -48,3 +54,14 @@ class Item(QWidget):
             self.label.hide()
             self.field.show()
             self.is_editing = True
+
+
+    def checkbox_on_toggle(self, checked):
+        font = self.label.font()
+        font.setStrikeOut(checked)
+        self.label.setFont(font)
+
+        if checked:
+            self.label.setStyleSheet("color: gray")
+        else:
+            self.label.setStyleSheet("color: white")

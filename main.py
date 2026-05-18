@@ -13,7 +13,7 @@ def start():
 
     list_widget = QListWidget()
 
-    button_add = QPushButton("Add")
+    button_add = QPushButton("Add task")
 
     def on_click() -> None:
         Item(list_widget)
