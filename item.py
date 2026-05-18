@@ -1,29 +1,50 @@
 import sys
-from PySide6.QtWidgets import QWidget, QPushButton, QLineEdit, QListWidget, QCheckBox, QGridLayout, QListWidgetItem
+from PySide6.QtWidgets import QWidget, QPushButton, QLineEdit, QListWidget, QCheckBox, QGridLayout, QListWidgetItem, QLabel
 
 class Item(QWidget):
-    def __init__(self, list_widget: QListWidget, /):
+    def __init__(self, list_widget: QListWidget, ):
         super().__init__()
 
         self.list_widget = list_widget
         self.list_item = QListWidgetItem()
 
+        self.is_editing: bool = True
+
         self.layout = QGridLayout(self)
 
         self.checkbox = QCheckBox()
         self.field = QLineEdit()
-        self.button = QPushButton("Del")
-        self.button.clicked.connect(self.on_click)
+        self.label = QLabel()
+        self.label.hide()
+        self.button_del = QPushButton("Del")
+        self.button_del.clicked.connect(self.button_del_on_click)
+        self.button_edit = QPushButton("Edit")
+        self.button_edit.clicked.connect(self.button_edit_on_click)
 
         self.layout.addWidget(self.checkbox, 0, 0)
-        self.layout.addWidget(self.field, 0, 1, 1, 8)
-        self.layout.addWidget(self.button, 0, 9)
+        self.layout.addWidget(self.field, 0, 1, 1, 7)
+        self.layout.addWidget(self.label, 0, 1, 1, 7)
+        self.layout.addWidget(self.button_del, 0, 9)
+        self.layout.addWidget(self.button_edit, 0, 8)
 
         self.list_item.setSizeHint(self.sizeHint())
 
         self.list_widget.addItem(self.list_item)
         self.list_widget.setItemWidget(self.list_item, self)
 
-    def on_click(self):
+    def button_del_on_click(self):
         row = self.list_widget.row(self.list_item)
         self.list_widget.takeItem(row)
+
+
+    def button_edit_on_click(self):
+        if self.is_editing:
+            self.field.hide()
+            self.label.setText(self.field.text())
+            self.label.show()
+            self.is_editing = False
+
+        else:
+            self.label.hide()
+            self.field.show()
+            self.is_editing = True
