@@ -1,29 +1,16 @@
 import sys
-from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QListWidget
-from item import Item
+from PySide6.QtWidgets import QApplication
+from main_window import MainWindow
 
-def start():
+
+def main() -> None:
     app = QApplication(sys.argv)
 
-    window = QWidget()
-    window.setWindowTitle("ToDo List")
-    window.resize(600, 400)
+    main_window = MainWindow(app)
+    main_window.show()
 
-    layout = QVBoxLayout(window)
-
-    list_widget = QListWidget()
-
-    button_add = QPushButton("Add task")
-
-    def on_click() -> None:
-        Item(list_widget)
-
-    button_add.clicked.connect(on_click)
-
-    layout.addWidget(list_widget)
-    layout.addWidget(button_add)
-
-    window.show()
     app.exec()
 
-start()
+
+if __name__ == '__main__':
+    main()

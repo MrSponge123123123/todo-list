@@ -1,12 +1,12 @@
-import sys
 from PySide6.QtWidgets import QWidget, QPushButton, QLineEdit, QListWidget, QCheckBox, QGridLayout, QListWidgetItem, QLabel
 
-class Item(QWidget):
-    def __init__(self, list_widget: QListWidget, ):
+class Task(QWidget):
+    def __init__(self, main_window):
         super().__init__()
 
-        self.list_widget = list_widget
-        self.list_item = QListWidgetItem()
+        self.main_window = main_window
+        self.list_widget = main_window.list_widget
+        self.list_task = QListWidgetItem()
 
         self.is_editing: bool = True
 
@@ -32,16 +32,16 @@ class Item(QWidget):
         self.layout.addWidget(self.button_del, 0, 9)
         self.layout.addWidget(self.button_edit, 0, 8)
 
-        self.list_item.setSizeHint(self.sizeHint())
+        self.list_task.setSizeHint(self.sizeHint())
 
-        self.list_widget.addItem(self.list_item)
-        self.list_widget.setItemWidget(self.list_item, self)
+        self.list_widget.addItem(self.list_task)
+        self.list_widget.setItemWidget(self.list_task, self)
 
 
     def button_del_on_click(self):
-        row = self.list_widget.row(self.list_item)
+        row = self.list_widget.row(self.list_task)
         self.list_widget.takeItem(row)
-
+        self.main_window.tasks.remove(self)
 
     def button_edit_on_click(self):
         if self.is_editing:
@@ -65,3 +65,14 @@ class Item(QWidget):
             self.label.setStyleSheet("color: gray")
         else:
             self.label.setStyleSheet("color: white")
+
+
+    @classmethod
+    def create_from_data(cls, main_window, checked: bool, content: str) -> Task:
+        task = Task(main_window)
+        task.field.setText(content)
+        task.button_edit.click()
+        if checked:
+            task.checkbox.toggle()
+
+        return task
